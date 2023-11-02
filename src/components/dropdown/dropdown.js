@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import makeAnimated from "react-select/animated";
 import { colourOptions } from "./data.js";
-import App from "./App.js";
-import './styles.css';
+import { default as ReactSelect } from "react-select";
+import "./styles.css";
 import { components } from "react-select";
 
-const Option = props => {
+const Option = (props) => {
   return (
     <div>
       <components.Option {...props}>
@@ -21,13 +20,6 @@ const Option = props => {
   );
 };
 
-const MultiValue = props => (
-  <components.MultiValue {...props}>
-    <span>{props.data.label}</span>
-  </components.MultiValue>
-);
-
-const animatedComponents = makeAnimated();
 export default class Example extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +28,7 @@ export default class Example extends Component {
     };
   }
 
-  handleChange = selected => {
+  handleChange = (selected) => {
     this.setState({
       optionSelected: selected
     });
@@ -44,16 +36,25 @@ export default class Example extends Component {
 
   render() {
     return (
-      <App
-        options={colourOptions}
-        isMulti
-        closeMenuOnSelect={false}
-        hideSelectedOptions={false}
-        components={{ Option, MultiValue, animatedComponents }}
-        onChange={this.handleChange}
-        allowSelectAll={true}
-        value={this.state.optionSelected}
-      />
+      <span
+        class="d-inline-block"
+        data-toggle="popover"
+        data-trigger="focus"
+        data-content="Please selecet account(s)"
+      >
+        <ReactSelect
+          options={colourOptions}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{
+            Option
+          }}
+          onChange={this.handleChange}
+          allowSelectAll={true}
+          value={this.state.optionSelected}
+        />
+      </span>
     );
   }
 }
